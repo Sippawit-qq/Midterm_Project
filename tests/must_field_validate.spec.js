@@ -3,6 +3,10 @@ import { Loginpage } from '../setup/login';
 import { getRandomSubjects, getRandomLocation, getRandomHobbies } from '../setup/randomData';
 import Person from '../model/person';
 
+const subject = getRandomSubjects(3);
+const location = getRandomLocation();
+const hobbies = getRandomHobbies(2);
+
 test.describe('Must fields check', () => {
   test(`shouldn't submit (First name blanks)`, async ({ page }) => {
     const profile = new Person(
@@ -12,12 +16,17 @@ test.describe('Must fields check', () => {
       "Male",
       "0999999999",
       "2005-08-17",
+      "2/14 thailand",
+      "./data/doraemon.jpg",
     );
   
     const Login = new Loginpage(page);
 
     await Login.gotoLoginPage();
     await Login.fillMustDetailPerson(profile);
+    await Login.selectSubject(subject);
+    await Login.selectLocation(location);
+    await Login.selectHobbies(hobbies);
     
     await Login.Submit.click();
     await expect(page.locator('#example-modal-sizes-title-lg')).not.toBeVisible('Thanks for submitting the form');
@@ -31,12 +40,17 @@ test.describe('Must fields check', () => {
       "Male",
       "0999999999",
       "2005-08-17",
+      "2/14 thailand",
+      "./data/doraemon.jpg",
     );
 
     const Login = new Loginpage(page);
 
     await Login.gotoLoginPage();
     await Login.fillMustDetailPerson(profile);
+    await Login.selectSubject(subject);
+    await Login.selectLocation(location);
+    await Login.selectHobbies(hobbies);
 
     await Login.Submit.click();
     await expect(page.locator("#example-modal-sizes-title-lg")).not.toBeVisible(
@@ -52,12 +66,17 @@ test.describe('Must fields check', () => {
       "",
       "0999999999",
       "2005-08-17",
+      "2/14 thailand",
+      "./data/doraemon.jpg",
     );
 
     const Login = new Loginpage(page);
 
     await Login.gotoLoginPage();
     await Login.fillMustDetailPerson(profile);
+    await Login.selectSubject(subject);
+    await Login.selectLocation(location);
+    await Login.selectHobbies(hobbies);
 
     await Login.Submit.click();
     await expect(page.locator("#example-modal-sizes-title-lg")).not.toBeVisible(
@@ -73,12 +92,17 @@ test.describe('Must fields check', () => {
       "Male",
       "",
       "2005-08-17",
+      "2/14 thailand",
+      "./data/doraemon.jpg",
     );
 
     const Login = new Loginpage(page);
 
     await Login.gotoLoginPage();
     await Login.fillMustDetailPerson(profile);
+    await Login.selectSubject(subject);
+    await Login.selectLocation(location);
+    await Login.selectHobbies(hobbies);
 
     await Login.Submit.click();
     await expect(page.locator("#example-modal-sizes-title-lg")).not.toBeVisible(
@@ -94,12 +118,17 @@ test.describe('Must fields check', () => {
       "",
       "",
       "2005-08-17",
+      "2/14 thailand",
+      "./data/doraemon.jpg",
     );
 
     const Login = new Loginpage(page);
 
     await Login.gotoLoginPage();
     await Login.fillMustDetailPerson(profile);
+    await Login.selectSubject(subject);
+    await Login.selectLocation(location);
+    await Login.selectHobbies(hobbies);
 
     await Login.Submit.click();
     await expect(page.locator("#example-modal-sizes-title-lg")).not.toBeVisible(
