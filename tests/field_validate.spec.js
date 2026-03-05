@@ -187,4 +187,29 @@ test.describe('Field Validate check', () => {
         await expect(page.locator('#example-modal-sizes-title-lg')).not.toBeVisible('Thanks for submitting the form');
     });
 
+    test(`valid picture (jpg)`, async ({ page }) => {
+        const Login = new Loginpage(page);
+
+        await Login.gotoLoginPage();
+        await Login.fillAllDetailPerson(profile);
+
+        await page.getByRole('button', { name: 'Submit' }).click();
+        await expect(page.locator('#example-modal-sizes-title-lg')).toBeVisible('Thanks for submitting the form');
+
+        await Login.checkDetail(profile);
+    });
+
+    test(`valid picture (png)`, async ({ page }) => {
+        const Login = new Loginpage(page);
+        profile.picture = "./data/mario.png";
+
+        await Login.gotoLoginPage();
+        await Login.fillAllDetailPerson(profile);
+
+        await page.getByRole('button', { name: 'Submit' }).click();
+        await expect(page.locator('#example-modal-sizes-title-lg')).toBeVisible('Thanks for submitting the form');
+
+        await Login.checkDetail(profile);
+    });
+
 });
