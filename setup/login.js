@@ -42,9 +42,7 @@ exports.Loginpage = class LoginPage {
    async fillMustDetailPerson(profile) {
     await this.fname_box.fill(profile.fname);
     await this.lname_box.fill(profile.lname);
-    await this.email_box.fill(profile.email);
     await this.selectGender(profile.gender);
-    await this.selectBirthDate(profile.birthDate);
     await this.mobile_box.fill(profile.mobile);
    }
 
@@ -91,7 +89,6 @@ exports.Loginpage = class LoginPage {
   }
 
   async selectSubject(subject) {
-    
     if (subject)
       for (const n of subject) {
         await this.page
@@ -100,19 +97,36 @@ exports.Loginpage = class LoginPage {
         await this.page.locator("#subjectsInput").fill(n);
         await this.page.locator("#subjectsInput").press("Enter");
       }
-
   }
+
+  async deleteSubject(subject) {
+    for (const n of subject) {
+            await this.page.getByRole('button', { name: `Remove ${n}` }).click();
+        }
+  }
+
+  async getSubjectSelected() {
+    const obj = await this.page.locator('.subjects-auto-complete__multi-value.css-1p3m7a8-multiValue').all();
+    let subjectsSelected = [];
+    for (const o of obj) {
+        subjectsSelected.push(await o.innerText());
+    }
+    return subjectsSelected;
+  }
+
 
   async checkDetail(profile, subject, hobbies, location) {
     
     // Must have for Login
     await expect(this.page.getByRole("cell", { name: profile.fname + " " + profile.lname }),).toBeVisible();
-    await expect(this.page.getByRole("cell", { name: profile.email })).toBeVisible();
     await expect(this.page.getByRole("cell", { name: profile.gender })).toBeVisible();
     await expect(this.page.getByRole("cell", { name: profile.mobile })).toBeVisible();
-    await expect(this.page.getByRole("cell", { name: dayjs( profile.birthDate ).format("D MMMM,YYYY") })).toBeVisible();
 
     // Optional
+    if (profile.birthDate != "")
+      await expect(this.page.getByRole("cell", { name: dayjs( profile.birthDate ).format("D MMMM,YYYY") })).toBeVisible();
+    if (profile.email != "")
+      await expect(this.page.getByRole("cell", { name: profile.email })).toBeVisible();
     if (subject)
       await expect(this.page.getByRole("cell", { name: subject.join(", ") }),).toBeVisible();
     if (hobbies)

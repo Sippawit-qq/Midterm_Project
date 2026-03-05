@@ -39,6 +39,8 @@ test('fill must data', async ({ page }) => {
   const mustProfile = profile;
   mustProfile.address = "";
   mustProfile.picture = "";
+  mustProfile.email = "";
+  mustProfile.birthDate = "";
 
   const Login = new Loginpage(page);
   await Login.gotoLoginPage();
